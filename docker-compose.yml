@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: qa-agent-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  playwright-mcp:
+    build:
+      context: ./playwright-mcp
+      dockerfile: Dockerfile
+    container_name: qa-agent-playwright-mcp
+    restart: always
+    ports:
+      - "8931:8931"
+    environment:
+      - PORT=8931
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  librechat:
+    image: ghcr.io/danny-avila/librechat-dev:latest
+    container_name: qa-agent-librechat
+    restart: always
+    ports:
+      - "3080:3080"
+    depends_on:
+      mongodb:
+        condition: service_started
+      playwright-mcp:
+        condition: service_started
+    env_file:
+      - .env
+    volumes:
+      - ./librechat.yaml:/app/librechat.yaml
+      - librechat_uploads:/app/uploads
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  mongodb_data:
+  librechat_uploads:

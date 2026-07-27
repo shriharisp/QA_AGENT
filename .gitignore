@@ -1,0 +1,25 @@
+# Node dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables & secrets
+.env
+!.env.example
+
+# OS & IDE metadata
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Docker / database volumes
+mongodb_data/
+librechat_uploads/
+
+# Playwright artifacts & test results
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/

@@ -1,0 +1,17 @@
+{
+  "name": "playwright-mcp-server",
+  "version": "1.0.0",
+  "description": "Dockerized Playwright MCP server with SSE and stdio transport for LibreChat",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "stdio": "npx -y @modelcontextprotocol/server-playwright"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.1",
+    "@modelcontextprotocol/server-playwright": "^0.6.2",
+    "express": "^4.21.1",
+    "playwright": "^1.49.1"
+  }
+}
